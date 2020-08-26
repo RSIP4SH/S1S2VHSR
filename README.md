@@ -31,8 +31,8 @@ python main.py s1_path s2_path ms_path pan_path gt_path
 
 - See help for all available options
 
-- batch size: `-bs` default value 256
+- batch size: `-bs` default value `256`
 
-- learning rate: `-lr`default value 0.0001
+- learning rate: `-lr`default value `0.0001`
 
-- number of epochs: `-ep` default value 1000
+- number of epochs: `-ep` default value `1000`
