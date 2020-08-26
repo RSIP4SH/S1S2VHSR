@@ -2,7 +2,9 @@ import numpy as np
 from src.utils import get_batch, get_iteration
 
 def getEmbedding (model,test_S1,test_S2,test_MS,test_Pan,test_y,batch_size,checkpoint_path,embedding_path,sensor) :
-
+    '''
+    Load weights for best configuration and Get Embedding of test set
+    '''
     model.load_weights(checkpoint_path)
     print ('Weights loaded')
 

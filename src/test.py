@@ -6,6 +6,9 @@ from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score,f1_score,cohen_kappa_score
 
 def predict_by_batch (model,test_S1,test_S2,test_MS,test_Pan,test_y,batch_size,sensor): 
+    '''
+    Predict batch of test set
+    '''
     pred=[]
 
     iteration = get_iteration(test_y,batch_size)
@@ -68,6 +71,9 @@ def predict_by_batch (model,test_S1,test_S2,test_MS,test_Pan,test_y,batch_size,s
     return pred, elapsed
         
 def restore (model,test_S1,test_S2,test_MS,test_Pan,test_y,batch_size,checkpoint_path,result_path,sensor):
+    '''
+    Load weights for best configuration and evaluate on test set
+    '''
     model.load_weights(checkpoint_path)
     print ('Weights loaded')
 

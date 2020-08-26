@@ -3,6 +3,9 @@ from tensorflow.keras.layers import Layer, Dense, Activation, Dropout, BatchNorm
 tf.keras.backend.set_floatx('float32')
 
 class Conv1DBlock(tf.keras.Model):
+    '''
+    Conv1D block with batch normalization and dropout layer
+    '''
     def __init__(self,n_filters,k_size,drop,strides=1,padding_mode='valid',act='relu'):
         super(Conv1DBlock, self).__init__()
         self.conv = Conv1D (filters=n_filters, kernel_size=k_size, padding=padding_mode, strides=strides, activation=act)
@@ -14,6 +17,9 @@ class Conv1DBlock(tf.keras.Model):
         return self.drop_layer(conv,training=is_training)
 
 class Conv2DBlock(tf.keras.Model):
+    '''
+    Conv2D block with batch normalization and dropout layer
+    '''
     def __init__(self,n_filters,k_size,drop,strides=1,padding_mode='valid',act='relu'):
         super(Conv2DBlock, self).__init__()
         self.conv = Conv2D (filters=n_filters, kernel_size=k_size, padding=padding_mode, strides=strides, activation=act)
@@ -25,6 +31,9 @@ class Conv2DBlock(tf.keras.Model):
         return self.drop_layer(conv,training=is_training)
 
 class Conv2DAndMaxPoolingBlock(tf.keras.Model):
+    '''
+    Conv2D block with batch normalization, maxpooling and dropout layer
+    '''
     def __init__(self,n_filters,k_size,drop,pool_size,strides_conv=1,strides_pool=2,padding_mode='valid',act='relu'):
         super(Conv2DAndMaxPoolingBlock, self).__init__()
         self.conv = Conv2D (filters=n_filters, kernel_size=k_size, padding=padding_mode, strides=strides_conv, activation=act)
@@ -38,6 +47,9 @@ class Conv2DAndMaxPoolingBlock(tf.keras.Model):
         return self.drop_layer(conv,training=is_training)
 
 class FC(tf.keras.Model):
+    '''
+    Dense layer with batch normalization 
+    '''
     def __init__(self,num_units,act='relu'):
         super(FC,self).__init__()
         self.dense = Dense(num_units, activation=act)
@@ -46,6 +58,9 @@ class FC(tf.keras.Model):
         return self.bn ( self.dense(inputs) )
 
 class SoftMax(Layer):
+    '''
+    Output layer with predictions for n_classes 
+    '''
     def __init__(self,n_classes):
         super(SoftMax,self).__init__()
         self.dense = Dense(n_classes,activation='softmax')
@@ -53,6 +68,9 @@ class SoftMax(Layer):
         return self.dense(inputs)
 
 class S1_Branch(tf.keras.Model):
+    '''
+    Sentinel-1 CNN encoder
+    '''
     def __init__(self,n_filters,drop):
         super(S1_Branch,self).__init__(name='S1_Branch')
         self.block1 = Conv2DBlock(n_filters,3,drop)
@@ -68,6 +86,9 @@ class S1_Branch(tf.keras.Model):
         return self.gap(b4)
 
 class S2_Branch(tf.keras.Model):
+    '''
+    Sentinel-2 CNN encoder
+    '''
     def __init__(self,n_filters,drop):
         super(S2_Branch,self).__init__(name='S2_Branch')
         self.block1 = Conv1DBlock(n_filters,5,drop)
@@ -83,6 +104,9 @@ class S2_Branch(tf.keras.Model):
         return self.gap(b4)
 
 class Spot_Branch(tf.keras.Model):
+    '''
+    SPOT CNN encoder
+    '''
     def __init__(self,n_filters,drop):
         super(Spot_Branch,self).__init__(name='Spot_Branch')
         self.block1 = Conv2DAndMaxPoolingBlock(n_filters,7,drop,3)
@@ -102,6 +126,9 @@ class Spot_Branch(tf.keras.Model):
         return self.gap(b5)
 
 class Model_S1S2SPOT(tf.keras.Model):
+    '''
+    Model for Sentinel-1, Sentinel-2 and SPOT fusion
+    '''
     def __init__(self,drop,n_classes,n_filters=128,num_units=512):
         super(Model_S1S2SPOT, self).__init__(name='Model_S1S2SPOT')
         self.s1_branch = S1_Branch(n_filters,drop)
@@ -133,6 +160,9 @@ class Model_S1S2SPOT(tf.keras.Model):
         return embedding
 
 class Model_S1S2(tf.keras.Model):
+    '''
+    Model for Sentinel-1 and Sentinel-2 fusion
+    '''
     def __init__(self,drop,n_classes,n_filters=128,num_units=512):
         super(Model_S1S2, self).__init__(name='Model_S1S2')
         self.s1_branch = S1_Branch(n_filters,drop)
@@ -159,6 +189,9 @@ class Model_S1S2(tf.keras.Model):
         return embedding
 
 class Model_S2SPOT(tf.keras.Model):
+    '''
+    Model for Sentinel-2 and SPOT fusion
+    '''
     def __init__(self,drop,n_classes,n_filters=128,num_units=512):
         super(Model_S2SPOT, self).__init__(name='Model_S2SPOT')
         self.s2_branch = S2_Branch(n_filters,drop)
@@ -185,6 +218,9 @@ class Model_S2SPOT(tf.keras.Model):
         return embedding
 
 class Model_S1(tf.keras.Model):
+    '''
+    Model for Sentinel-1 alone
+    '''
     def __init__(self,drop,n_classes,n_filters=128,num_units=512):
         super(Model_S1, self).__init__(name='Model_S1')
         self.s1_branch = S1_Branch(n_filters,drop)
@@ -201,6 +237,9 @@ class Model_S1(tf.keras.Model):
         return embedding
 
 class Model_S2(tf.keras.Model):
+    '''
+    Model for Sentinel-2 alone
+    '''
     def __init__(self,drop,n_classes,n_filters=128,num_units=512):
         super(Model_S2, self).__init__(name='Model_S2')
         self.s2_branch = S2_Branch(n_filters,drop)
@@ -217,6 +256,9 @@ class Model_S2(tf.keras.Model):
         return embedding
 
 class Model_SPOT(tf.keras.Model):
+    '''
+    Model for SPOT alone
+    '''
     def __init__(self,drop,n_classes,n_filters=128,num_units=512):
         super(Model_SPOT, self).__init__(name='Model_SPOT')
         self.spot_branch = Spot_Branch(n_filters,drop)

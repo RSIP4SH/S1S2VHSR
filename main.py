@@ -32,7 +32,7 @@ if __name__ == '__main__':
     parser.add_argument('-w','--weight',dest='weight',help='Weight for auxiliary classifiers',default=0.3,type=float)
     args = parser.parse_args()
 
-    # Get values 
+    # Get argument values
     s1_path = args.s1_path
     s2_path = args.s2_path
     ms_path = args.ms_path
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     print ('Validation GT:', valid_y.shape)
     n_classes = len(np.unique(train_y))
     print ('Number of classes:',n_classes)
-        
+    
     if 's1' in sensor :
         train_S1 = format_cnn2d(s1_path+'/train_S1.npy')
         print ('Training S1:',train_S1.shape)
@@ -108,7 +108,7 @@ if __name__ == '__main__':
         model = Model_SPOT (drop,n_classes)
 
     # Learning stage
-    checkpoint_path = os.path.join(out_path,'model')
+    checkpoint_path = os.path.join(out_path,'model') 
 
     run (model,train_S1,train_S2,train_MS,train_Pan,train_y,
             valid_S1,valid_S2,valid_MS,valid_Pan,valid_y,
@@ -139,10 +139,10 @@ if __name__ == '__main__':
         test_MS = None
         test_Pan = None
 
-    # Inference 
+    # Inference stage
     result_path = os.path.join(out_path,'pred.npy')
     restore (model,test_S1,test_S2,test_MS,test_Pan,test_y,batch_size,checkpoint_path,result_path,sensor)
 
-    # Get Embedding
+    # Get Embedding on test set
     embedding_path = os.path.join(out_path,'embedding.npy')
     getEmbedding (model,test_S1,test_S2,test_MS,test_Pan,test_y,batch_size,checkpoint_path,embedding_path,sensor)

@@ -6,6 +6,10 @@ from sklearn.utils import shuffle
 from sklearn.metrics import accuracy_score,f1_score,cohen_kappa_score
 
 def train_info (model,checkpoint_path,epoch,train_loss,train_acc,valid_loss,valid_acc,elapsed,best_acc,valid_y,pred):
+    '''
+    Output of training step
+    Save model if accuracy improves
+    '''
     print (f'Epoch {epoch+1}, Loss: {train_loss.result()}, Acc: {train_acc.result()}, Valid Loss: {valid_loss.result()}, Valid Acc: {valid_acc.result()}, Time: {elapsed}')
     if valid_acc.result() > best_acc :
         print ( f1_score (valid_y,pred,average=None) )
@@ -22,6 +26,9 @@ def train_info (model,checkpoint_path,epoch,train_loss,train_acc,valid_loss,vali
 
 @tf.function
 def train_step (model, x_s1, x_s2, x_ms, x_pan, y, loss_function, optimizer, loss, metric, sensor, weight, is_training):
+    '''
+    Gradient differentiation
+    '''
     with tf.GradientTape() as tape:
         if len (sensor) == 3 :
             s1_pred, s2_pred, spot_pred, main_pred = model(x_s1, x_s2, x_ms, x_pan,is_training)
@@ -62,6 +69,9 @@ def train_step (model, x_s1, x_s2, x_ms, x_pan, y, loss_function, optimizer, los
 def run (model,train_S1,train_S2,train_MS,train_Pan,train_y,
             valid_S1,valid_S2,valid_MS,valid_Pan,valid_y,
                 checkpoint_path,batch_size,lr,n_epochs,sensor,weight) :
+    '''
+    Main function for training models
+    '''
     
     loss_function = tf.keras.losses.SparseCategoricalCrossentropy()
     optimizer = tf.keras.optimizers.Adam(learning_rate = lr)
