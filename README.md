@@ -12,6 +12,7 @@ The code relies on Pyhton 3.7.6. The CNN models were implemented with Tensorflow
 ### Running the main architecture model
 
 - fusion of S1, S2 and SPOT
+
 `
 python main.py s1_path s2_path ms_path pan_path gt_path
 
