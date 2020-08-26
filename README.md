@@ -21,7 +21,7 @@ python main.py s1_path s2_path ms_path pan_path gt_path
 
 ### Running ablation models 
 
-- available cases: S1 and S2, S2 and SPOT, S1, S2 or SPOT)
+- available cases: S1 and S2, S2 and SPOT, S1, S2 and SPOT)
 
 - example for S1 and S2 `python main.py s1_path s2_path ms_path pan_path gt_path -s s1 s2`
 
