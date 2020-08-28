@@ -1,7 +1,7 @@
 # S1S2VHSR
 Multi-sensor and Multi-scale data fusion for land cover mapping through Convolutional Neural Networks (CNN). 
 
-This repository supports a paper we have submitted to IEEE JSTARS. The study assess the fusion of Sentinel-1 (S1) and Sentinel-2 (S2) satellite image time series in addition to a Very High Spatial Resolution (VHSR) SPOT image for land cover mapping via a 3 branch CNN architecture. The study was carried out on Reunion island.
+This repository supports a paper we have submitted to IEEE JSTARS. The study assesses the fusion of Sentinel-1 (S1) and Sentinel-2 (S2) satellite image time series in addition to a Very High Spatial Resolution (VHSR) SPOT image for land cover mapping via a 3 branch CNN architecture. The study was carried out on Reunion island.
 
 ## Prerequisites
 
